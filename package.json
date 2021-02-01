@@ -1,0 +1,23 @@
+{
+  "name": "poker-server",
+  "version": "0.0.1",
+  "description": "The back-end server which serves the poker-planning front-end web app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/X-Fix/poker-server.git"
+  },
+  "author": "cameron.stroebel08@gmail.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/X-Fix/poker-server/issues"
+  },
+  "homepage": "https://github.com/X-Fix/poker-server#readme",
+  "dependencies": {
+    "nanoexpress": "^2.4.9"
+  },
+  "type": "module"
+}
