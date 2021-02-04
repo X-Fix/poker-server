@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Route } from './Route';
+import { Route } from '../definitions';
 
 const ping: Route = {
   handler: (req: Request, response: Response) => {
