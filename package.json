@@ -23,12 +23,16 @@
     "url": "https://github.com/X-Fix/poker-server/issues"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "compression": "^1.7.4",
+    "express": "^4.17.1",
+    "socket.io": "^3.1.1"
   },
   "devDependencies": {
+    "@types/compression": "^1.7.0",
     "@types/express": "^4.17.11",
     "@types/jest": "^26.0.20",
     "@types/node": "^14.14.22",
+    "@types/socket.io": "^2.1.13",
     "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "@typescript-eslint/parser": "^4.14.2",
@@ -73,16 +77,22 @@
       "prettier"
     ],
     "rules": {
-      "import/extensions": ["error", "ignorePackages", {
-        "js": "never",
-        "mjs": "never",
-        "jsx": "never",
-        "ts": "never"
-      }],
+      "import/extensions": [
+        "error",
+        "ignorePackages",
+        {
+          "js": "never",
+          "mjs": "never",
+          "jsx": "never",
+          "ts": "never"
+        }
+      ],
       "import/no-extraneous-dependencies": [
         "error",
         {
-          "devDependencies": ["**/*.spec.ts"],
+          "devDependencies": [
+            "**/*.spec.ts"
+          ],
           "optionalDependencies": false,
           "peerDependencies": false
         }
@@ -91,7 +101,9 @@
     "settings": {
       "import/resolver": {
         "node": {
-          "extensions": [".ts"]
+          "extensions": [
+            ".ts"
+          ]
         }
       }
     }
