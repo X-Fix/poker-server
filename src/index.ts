@@ -3,8 +3,8 @@
 import express from 'express';
 import { Socket } from 'socket.io';
 import compression from 'compression';
-import routes from './routes';
-import { Route } from './routes/Route';
+import { get, post } from './routes';
+import { Route } from './definitions';
 
 const app = express();
 app.set('port', process.env.PORT || 3000);
@@ -17,7 +17,8 @@ const http = require('http').Server(app);
 // http server.
 const io = require('socket.io')(http);
 
-routes.forEach(({ handler, url }: Route) => app.get(url, handler));
+get.forEach(({ handler, url }: Route) => app.get(url, handler));
+post.forEach(({ handler, url }: Route) => app.post(url, handler));
 
 io.on('connection', (socket: Socket) => {
   console.log('User connected', socket.id);

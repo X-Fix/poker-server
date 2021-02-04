@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Route } from './Route';
+import { Route } from '../definitions';
 
 const home: Route = {
   handler: (req: Request, response: Response) => {
