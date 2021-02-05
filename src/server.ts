@@ -3,7 +3,7 @@
 import express from 'express';
 import { Socket } from 'socket.io';
 import compression from 'compression';
-import { get, post } from './routes';
+import { get, post } from './endpoints';
 import { Route } from './definitions';
 
 const app = express();
