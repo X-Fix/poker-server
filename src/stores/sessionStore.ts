@@ -4,9 +4,9 @@ type SessionStore = {
   [sessionId: string]: Session;
 };
 
-const sessionStore: SessionStore = {};
+let sessionStore: SessionStore = {};
 
-export function getSessionById(sessionId: string): Session | undefined {
+export function getSessionById(sessionId: string): Session {
   return sessionStore[sessionId];
 }
 
@@ -16,4 +16,8 @@ export function saveSession(session: Session): void {
 
 export function deleteSession(sessionId: string): void {
   delete sessionStore[sessionId];
+}
+
+export function resetSessions(): void {
+  sessionStore = {};
 }
