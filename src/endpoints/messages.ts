@@ -1,8 +1,19 @@
-import { SocketMessage, SubscribePayload } from '../definitions';
-import { subscribe as subscribeHandler } from '../handlers';
+import {
+  SocketMessage,
+  SubscribePayload,
+  SetParticipantIsActivePayload,
+} from '../definitions';
+import {
+  subscribe as subscribeHandler,
+  setParticipantIsActive as setParticipantIsActiveHandler,
+} from '../handlers';
 
-// eslint-disable-next-line import/prefer-default-export
 export const subscribe: SocketMessage<SubscribePayload> = {
   handler: subscribeHandler,
   message: 'subscribe',
+};
+
+export const setParticipantIsActive: SocketMessage<SetParticipantIsActivePayload> = {
+  handler: setParticipantIsActiveHandler,
+  message: 'setActive',
 };
