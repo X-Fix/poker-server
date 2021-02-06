@@ -44,7 +44,7 @@ function removeParticipant(
 
   // Notify the socket client they have been removed and close connection
   removedSocket.emit('removed');
-  removedSocket.disconnect();
+  removedSocket.disconnect(true);
 }
 
 export default removeParticipant;
