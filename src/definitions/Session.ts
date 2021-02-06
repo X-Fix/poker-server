@@ -4,7 +4,7 @@ import Participant from './Participant';
 class Session {
   public id: string;
   public name?: string;
-  public ownerId: string | undefined;
+  public ownerId: string;
   public participants: Participant[];
 
   constructor(owner: Participant, name?: string) {
