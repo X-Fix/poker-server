@@ -13,7 +13,7 @@ function setParticipantIsActive(
   // Find the acting participant by looking for a participant with matching socketId
   // Prefer this over self-identifying methods like "I am the owner" (easier to fake)
   const actingParticipant = participants.find(
-    ({ socketId }) => socketId === socket.conn.id
+    ({ socketId }) => socketId === socket.id
   );
 
   // Ignore if acting participant can't be found, or isn't the session owner

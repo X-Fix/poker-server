@@ -16,7 +16,7 @@ function subscribe(
   if (!participant) return;
 
   // Attach socketId to participant
-  participant.socketId = socket.conn.id;
+  participant.socketId = socket.id;
 
   // Subscribe participant's socket to socket group (room)
   socket.join(sessionId);
