@@ -4,4 +4,5 @@ export { default as Route } from './Route';
 export { default as SocketMessage } from './SocketMessage';
 export { default as NewTopicPayload } from './NewTopicPayload';
 export { default as SetParticipantIsActivePayload } from './SetParticipantIsActivePayload';
+export { default as SetVotePayload } from './SetVotePayload';
 export { default as SubscribePayload } from './SubscribePayload';
