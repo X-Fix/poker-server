@@ -1,4 +1,5 @@
 import {
+  leaveSession,
   newTopic,
   removeParticipant,
   setParticipantIsActive,
@@ -17,6 +18,7 @@ import {
 export const get = [home, ping, dummySessionRoute];
 export const post = [createSession, joinSession, resetRoute];
 export const messages = [
+  leaveSession,
   newTopic,
   removeParticipant,
   setParticipantIsActive,

@@ -5,14 +5,21 @@ import {
   NewTopicPayload,
   SetVotePayload,
   RemoveParticipantPayload,
+  LeaveSessionPayload,
 } from '../definitions';
 import {
+  leaveSession as leaveSessionHandler,
   newTopic as newTopicHandler,
   removeParticipant as removeParticipantHandler,
   subscribe as subscribeHandler,
   setParticipantIsActive as setParticipantIsActiveHandler,
   setVote as setVoteHandler,
 } from '../handlers';
+
+export const leaveSession: SocketMessage<LeaveSessionPayload> = {
+  handler: leaveSessionHandler,
+  message: 'setActive',
+};
 
 export const removeParticipant: SocketMessage<RemoveParticipantPayload> = {
   handler: removeParticipantHandler,
