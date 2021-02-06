@@ -22,7 +22,7 @@ function subscribe(
   socket.join(sessionId);
 
   // Broadcast update to all subscribers of the socket group (room)
-  namespace.to(sessionId).emit('Sync', session);
+  namespace.to(sessionId).emit('sync', session);
 }
 
 export default subscribe;
