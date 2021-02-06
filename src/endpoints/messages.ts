@@ -8,12 +8,12 @@ import {
   setParticipantIsActive as setParticipantIsActiveHandler,
 } from '../handlers';
 
-export const subscribe: SocketMessage<SubscribePayload> = {
-  handler: subscribeHandler,
-  message: 'subscribe',
-};
-
 export const setParticipantIsActive: SocketMessage<SetParticipantIsActivePayload> = {
   handler: setParticipantIsActiveHandler,
   message: 'setActive',
+};
+
+export const subscribe: SocketMessage<SubscribePayload> = {
+  handler: subscribeHandler,
+  message: 'subscribe',
 };
