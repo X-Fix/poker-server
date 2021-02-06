@@ -4,13 +4,20 @@ import {
   SetParticipantIsActivePayload,
   NewTopicPayload,
   SetVotePayload,
+  RemoveParticipantPayload,
 } from '../definitions';
 import {
   newTopic as newTopicHandler,
+  removeParticipant as removeParticipantHandler,
   subscribe as subscribeHandler,
   setParticipantIsActive as setParticipantIsActiveHandler,
   setVote as setVoteHandler,
 } from '../handlers';
+
+export const removeParticipant: SocketMessage<RemoveParticipantPayload> = {
+  handler: removeParticipantHandler,
+  message: 'setActive',
+};
 
 export const setParticipantIsActive: SocketMessage<SetParticipantIsActivePayload> = {
   handler: setParticipantIsActiveHandler,
