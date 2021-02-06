@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 
-import { Route } from '../definitions';
+import { Participant, Route, Session } from '../definitions';
 import { createSession, joinSession } from '../handlers';
-import { resetSessions } from '../stores/sessionStore';
+import { resetSessions, saveSession } from '../stores/sessionStore';
 
 export const home: Route = {
   handler: (req: Request, response: Response) => {
@@ -34,4 +34,18 @@ export const resetRoute: Route = {
     res.end();
   },
   url: '/debug/resetSessions',
+};
+
+export const dummySessionRoute: Route = {
+  handler: (req, res) => {
+    const participant = new Participant('Cameron');
+    participant.id = '1ze456';
+    const session = new Session(participant, 'Dummy Room');
+    session.id = 'QWERTY';
+
+    saveSession(session);
+
+    res.send(session);
+  },
+  url: '/debug/dummySession',
 };
