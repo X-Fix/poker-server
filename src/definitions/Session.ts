@@ -7,6 +7,7 @@ class Session {
   public ownerId: string;
   public participants: Participant[];
   public topic?: string;
+  public cleanUp?: Date;
 
   constructor(owner: Participant, name?: string) {
     this.id = generateSessionId();

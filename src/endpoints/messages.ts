@@ -6,8 +6,10 @@ import {
   SetVotePayload,
   RemoveParticipantPayload,
   LeaveSessionPayload,
+  DisconnectPayload,
 } from '../definitions';
 import {
+  disconnect as disconnectHandler,
   leaveSession as leaveSessionHandler,
   newTopic as newTopicHandler,
   removeParticipant as removeParticipantHandler,
@@ -16,14 +18,19 @@ import {
   setVote as setVoteHandler,
 } from '../handlers';
 
+export const disconnect: SocketMessage<DisconnectPayload> = {
+  handler: disconnectHandler,
+  message: 'disconnect',
+};
+
 export const leaveSession: SocketMessage<LeaveSessionPayload> = {
   handler: leaveSessionHandler,
-  message: 'setActive',
+  message: 'leaveSession',
 };
 
 export const removeParticipant: SocketMessage<RemoveParticipantPayload> = {
   handler: removeParticipantHandler,
-  message: 'setActive',
+  message: 'removeParticipant',
 };
 
 export const setParticipantIsActive: SocketMessage<SetParticipantIsActivePayload> = {
