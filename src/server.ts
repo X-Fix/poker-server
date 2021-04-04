@@ -31,10 +31,6 @@ io.on('connection', (socket: Socket) => {
   socket.on('reconnect', () => {
     console.log('User reconnect');
   });
-
-  socket.on('disconnect', () => {
-    console.log('User disconnected');
-  });
 });
 
 export default http;
