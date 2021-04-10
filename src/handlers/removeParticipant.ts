@@ -25,12 +25,6 @@ function removeParticipant(
 
   if (!removedParticipant) return;
 
-  // Filter out the removed participant
-  session.participants = participants.filter(({ id }) => id !== participantId);
-
-  // Broadcast update to all subscribers of the socket group (room)
-  namespace.to(sessionId).emit('sync', session);
-
   const { socketId: removedSocketId } = removedParticipant;
 
   if (!removedSocketId) return;
@@ -45,6 +39,15 @@ function removeParticipant(
   // Notify the socket client they have been removed and close connection
   removedSocket.emit('removed');
   removedSocket.disconnect(true);
+
+  // Filter out the removed participant
+  const filteredParticipants = participants.filter(
+    ({ id }) => id !== participantId
+  );
+  session.participants = filteredParticipants;
+
+  // Broadcast update to all subscribers of the socket group (room)
+  namespace.to(sessionId).emit('syncParticipants', filteredParticipants);
 }
 
 export default removeParticipant;

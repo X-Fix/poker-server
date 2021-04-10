@@ -21,8 +21,20 @@ function setVote(
 
   actingParticipant.vote = vote;
 
-  // Broadcast update to all subscribers of the socket group (room)
-  namespace.to(sessionId).emit('sync', session);
+  // If all active participants have voted, move to the 'result' phase
+  if (
+    participants.every(
+      ({ isActive, vote: pVote }) => !isActive || Boolean(pVote)
+    )
+  ) {
+    session.phase = 'result';
+
+    // Broadcast session update to all subscribers of the socket group (room)
+    namespace.to(sessionId).emit('syncSession', session);
+  } else {
+    // Broadcast participants update to all subscribers of the socket group (room)
+    namespace.to(sessionId).emit('syncParticipants', participants);
+  }
 }
 
 export default setVote;

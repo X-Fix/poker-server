@@ -44,7 +44,7 @@ function disconnect(
     }
 
     // Broadcast update to all subscribers of the socket group (room)
-    namespace.to(sessionId).emit('sync', session);
+    namespace.to(sessionId).emit('syncParticipants', participants);
   });
 }
 

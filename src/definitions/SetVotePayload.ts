@@ -1,6 +1,6 @@
 interface SetVotePayload {
   sessionId: string;
-  vote: number;
+  vote: string;
 }
 
 export default SetVotePayload;

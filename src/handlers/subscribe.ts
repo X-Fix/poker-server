@@ -1,15 +1,24 @@
 import { Namespace, Socket } from 'socket.io';
 
-import { SubscribePayload } from '../definitions';
+import { Session, SubscribePayload } from '../definitions';
 import { getSessionById } from '../stores/sessionStore';
 
 function subscribe(
   { participantId, sessionId }: SubscribePayload,
   socket: Socket,
-  namespace: Namespace
+  namespace: Namespace,
+  callback: (session: Session) => void
 ): void {
   const session = getSessionById(sessionId);
-  const participant = session.participants.find(
+
+  // TODO: handle this better
+  // Can happen if server restarts while client sessions still exist. Need to signal to client that
+  // a new session needs to be created
+  if (!session) return;
+
+  const { participants } = session;
+
+  const participant = participants.find(
     (currentParticipant) => currentParticipant.id === participantId
   );
 
@@ -18,11 +27,25 @@ function subscribe(
   // Attach socketId to participant
   participant.socketId = socket.id;
 
-  // Subscribe participant's socket to socket group (room)
-  socket.join(sessionId);
+  // TODO: unsubscribe any already existing socket connections
 
-  // Broadcast update to all subscribers of the socket group (room)
-  namespace.to(sessionId).emit('sync', session);
+  if (typeof callback === 'function') {
+    // Broadcast update to already existing subscribers of the socket group (room)
+    namespace.to(sessionId).emit('syncParticipants', participants);
+
+    // Subscribe participant's socket to socket group (room)
+    // Do this after emit cos we're gonna respond with the session object next
+    socket.join(sessionId);
+
+    // Send session object back to subscriber
+    callback(session);
+  } else {
+    // Subscribe participant's socket to socket group (room)
+    socket.join(sessionId);
+
+    // Broadcast update to ALL subscribers of the socket group (room)
+    namespace.to(sessionId).emit('syncParticipants', participants);
+  }
 }
 
 export default subscribe;

@@ -28,8 +28,10 @@ function newTopic(
     delete participant.vote;
   });
 
+  session.phase = 'voting';
+
   // Broadcast update to all subscribers of the socket group (room)
-  namespace.to(sessionId).emit('sync', session);
+  namespace.to(sessionId).emit('syncSession', session);
 }
 
 export default newTopic;

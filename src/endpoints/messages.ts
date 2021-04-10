@@ -18,6 +18,14 @@ import {
   setVote as setVoteHandler,
 } from '../handlers';
 
+export const pong: SocketMessage<unknown> = {
+  handler: (empty, socket) => {
+    console.log('heard ping');
+    socket.emit('pong');
+  },
+  message: 'ping',
+};
+
 export const disconnect: SocketMessage<DisconnectPayload> = {
   handler: disconnectHandler,
   message: 'disconnect',

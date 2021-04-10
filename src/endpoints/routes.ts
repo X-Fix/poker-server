@@ -15,17 +15,17 @@ export const ping: Route = {
   handler: (req: Request, response: Response) => {
     response.send('pong');
   },
-  url: '/ping',
+  url: '/api/ping',
 };
 
 export const createSessionRoute: Route = {
   handler: createSession,
-  url: '/createSession',
+  url: '/api/create-session',
 };
 
 export const joinSessionRoute: Route = {
   handler: joinSession,
-  url: '/joinSession',
+  url: '/api/join-session',
 };
 
 export const resetRoute: Route = {
@@ -40,7 +40,11 @@ export const dummySessionRoute: Route = {
   handler: (req, res) => {
     const participant = new Participant('Cameron');
     participant.id = '1ze456';
-    const session = new Session(participant, 'Dummy Room');
+    const session = new Session(
+      participant,
+      ['1', '2', '5', '10', '20', '50', '100'],
+      'Dummy Room'
+    );
     session.id = 'QWERTY';
 
     saveSession(session);
