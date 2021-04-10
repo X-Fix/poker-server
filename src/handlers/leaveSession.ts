@@ -1,6 +1,7 @@
 import { Namespace, Socket } from 'socket.io';
 import { LeaveSessionPayload } from '../definitions';
 import { deleteSession, getSessionById } from '../stores/sessionStore';
+import { parseSafeParticipantResponse } from '../utils';
 
 function leaveSession(
   { sessionId }: LeaveSessionPayload,
@@ -34,7 +35,9 @@ function leaveSession(
     }
 
     // Broadcast update to all subscribers of the socket group (room)
-    namespace.to(sessionId).emit('syncParticipants', participants);
+    namespace
+      .to(sessionId)
+      .emit('syncParticipants', parseSafeParticipantResponse(participants));
   }
 
   if (!socketId) return;

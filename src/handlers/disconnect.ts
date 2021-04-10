@@ -1,7 +1,7 @@
 import { Namespace, Socket } from 'socket.io';
 import { DisconnectPayload } from '../definitions';
 import { getSessionById, getSessionBySocketId } from '../stores/sessionStore';
-import { DISCONNECT_REASON } from '../utils';
+import { DISCONNECT_REASON, parseSafeParticipantResponse } from '../utils';
 
 const { IO_SERVER_DISCONNECT, IO_CLIENT_DISCONNECT } = DISCONNECT_REASON;
 
@@ -47,7 +47,9 @@ function disconnect(
   console.log('session scheduled for cleanup', session.cleanUp?.toTimeString());
 
   // Broadcast update to all subscribers of the socket group (room)
-  namespace.to(session.id).emit('syncParticipants', participants);
+  namespace
+    .to(session.id)
+    .emit('syncParticipants', parseSafeParticipantResponse(participants));
   console.log('disconnect update broadcast');
 }
 

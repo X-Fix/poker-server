@@ -1,6 +1,7 @@
 import { Namespace, Socket } from 'socket.io';
 import { RemoveParticipantPayload } from '../definitions';
 import { getSessionById } from '../stores/sessionStore';
+import { parseSafeParticipantResponse } from '../utils';
 
 function removeParticipant(
   { participantId, sessionId }: RemoveParticipantPayload,
@@ -47,7 +48,12 @@ function removeParticipant(
   session.participants = filteredParticipants;
 
   // Broadcast update to all subscribers of the socket group (room)
-  namespace.to(sessionId).emit('syncParticipants', filteredParticipants);
+  namespace
+    .to(sessionId)
+    .emit(
+      'syncParticipants',
+      parseSafeParticipantResponse(filteredParticipants)
+    );
 }
 
 export default removeParticipant;

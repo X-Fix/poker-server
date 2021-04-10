@@ -1,5 +1,6 @@
 import { customAlphabet } from 'nanoid';
 import dictionary from 'nanoid-dictionary/nolookalikes-safe';
+import { Participant, Session } from '../definitions';
 
 /**
  * ID Generators
@@ -54,6 +55,31 @@ export const generateParticipantName = (): string =>
   `${
     participantNames[getRandomInt(0, participantNames.length - 1)]
   } #${getRandomInt(1, 100)}`;
+
+/**
+ * Response/socket payload parsing
+ */
+function getSafeParticipants(participants: Participant[]): Participant[] {
+  const safeParticipants = participants.map(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    ({ socketId: _, ...participant }) => participant
+  );
+
+  return safeParticipants;
+}
+
+export function parseSafeSessionResponse(session: Session): Session {
+  // eslint-disable-next-line no-param-reassign
+  session.participants = getSafeParticipants(session.participants);
+
+  return session;
+}
+
+export function parseSafeParticipantResponse(
+  participants: Participant[]
+): Participant[] {
+  return getSafeParticipants(participants);
+}
 
 /**
  * Constants

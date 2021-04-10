@@ -1,6 +1,7 @@
 import { Namespace, Socket } from 'socket.io';
 import { SetParticipantIsActivePayload } from '../definitions';
 import { getSessionById } from '../stores/sessionStore';
+import { parseSafeParticipantResponse } from '../utils';
 
 function setParticipantIsActive(
   { isActive, participantId, sessionId }: SetParticipantIsActivePayload,
@@ -28,7 +29,9 @@ function setParticipantIsActive(
   targetParticipant.isActive = isActive;
 
   // Broadcast update to all subscribers of the socket group (room)
-  namespace.to(sessionId).emit('syncParticipants', participants);
+  namespace
+    .to(sessionId)
+    .emit('syncParticipants', parseSafeParticipantResponse(participants));
 }
 
 export default setParticipantIsActive;

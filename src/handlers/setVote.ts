@@ -1,6 +1,10 @@
 import { Namespace, Socket } from 'socket.io';
 import { SetVotePayload } from '../definitions';
 import { getSessionById } from '../stores/sessionStore';
+import {
+  parseSafeParticipantResponse,
+  parseSafeSessionResponse,
+} from '../utils';
 
 function setVote(
   { sessionId, vote }: SetVotePayload,
@@ -30,10 +34,14 @@ function setVote(
     session.phase = 'result';
 
     // Broadcast session update to all subscribers of the socket group (room)
-    namespace.to(sessionId).emit('syncSession', session);
+    namespace
+      .to(sessionId)
+      .emit('syncSession', parseSafeSessionResponse(session));
   } else {
     // Broadcast participants update to all subscribers of the socket group (room)
-    namespace.to(sessionId).emit('syncParticipants', participants);
+    namespace
+      .to(sessionId)
+      .emit('syncParticipants', parseSafeParticipantResponse(participants));
   }
 }
 

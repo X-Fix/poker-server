@@ -1,6 +1,7 @@
 import { Namespace, Socket } from 'socket.io';
 import { NewTopicPayload } from '../definitions';
 import { getSessionById } from '../stores/sessionStore';
+import { parseSafeSessionResponse } from '../utils';
 
 function newTopic(
   { sessionId, topic }: NewTopicPayload,
@@ -31,7 +32,9 @@ function newTopic(
   session.phase = 'voting';
 
   // Broadcast update to all subscribers of the socket group (room)
-  namespace.to(sessionId).emit('syncSession', session);
+  namespace
+    .to(sessionId)
+    .emit('syncSession', parseSafeSessionResponse(session));
 }
 
 export default newTopic;

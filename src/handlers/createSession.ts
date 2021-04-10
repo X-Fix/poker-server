@@ -2,7 +2,11 @@ import { Request, Response } from 'express';
 
 import { Participant, Session } from '../definitions';
 import { getSessionById, saveSession } from '../stores/sessionStore';
-import { generateParticipantName, generateSessionName } from '../utils';
+import {
+  generateParticipantName,
+  generateSessionName,
+  parseSafeSessionResponse,
+} from '../utils';
 
 interface CreateSessionRequest extends Request {
   body: {
@@ -39,7 +43,7 @@ function createSession(
 
   response.json({
     participantId: participant.id,
-    session,
+    session: parseSafeSessionResponse(session),
   });
 }
 
