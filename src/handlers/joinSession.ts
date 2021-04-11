@@ -2,11 +2,7 @@ import { Request, Response } from 'express';
 
 import { Participant, Session } from '../definitions';
 import { getSessionById } from '../stores/sessionStore';
-import {
-  generateParticipantName,
-  HTTP_STATUS,
-  parseSafeSessionResponse,
-} from '../utils';
+import { generateParticipantName, HTTP_STATUS } from '../utils';
 
 interface JoinSessionRequest extends Request {
   body: {
@@ -48,7 +44,7 @@ function joinSession({ body }: JoinSessionRequest, response: Response): void {
 
   response.json({
     participantId: participant.id,
-    session: parseSafeSessionResponse(session),
+    sessionId: session.id,
   });
 }
 
