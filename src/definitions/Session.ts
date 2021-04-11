@@ -19,12 +19,6 @@ class Session {
     this.cardSequence = cardSequence;
     this.phase = 'lobby';
   }
-
-  public hasVotingFinished(): boolean {
-    return Boolean(
-      this.participants.filter(({ vote }) => Boolean(vote)).length
-    );
-  }
 }
 
 export default Session;
