@@ -40,6 +40,10 @@ function joinSession({ body }: JoinSessionRequest, response: Response): void {
   }
 
   const participant: Participant = new Participant(appendedParticipantName);
+
+  if (session.phase === 'voting') {
+    participant.isActive = false;
+  }
   session.participants.push(participant);
 
   response.json({
