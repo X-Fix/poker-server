@@ -46,11 +46,6 @@ export const setParticipantIsActive: SocketMessage<SetParticipantIsActivePayload
   message: 'setActive',
 };
 
-export const subscribe: SocketMessage<SubscribePayload> = {
-  handler: subscribeHandler,
-  message: 'subscribe',
-};
-
 export const newTopic: SocketMessage<NewTopicPayload> = {
   handler: newTopicHandler,
   message: 'newTopic',

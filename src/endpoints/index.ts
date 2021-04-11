@@ -6,7 +6,6 @@ import {
   removeParticipant,
   setParticipantIsActive,
   setVote,
-  subscribe,
 } from './messages';
 import {
   home,
@@ -27,5 +26,4 @@ export const messages = [
   removeParticipant,
   setParticipantIsActive,
   setVote,
-  subscribe,
 ];

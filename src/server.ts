@@ -1,11 +1,12 @@
-/* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-var-requires */
 import express from 'express';
 import { Socket } from 'socket.io';
 import compression from 'compression';
 import cors from 'cors';
+
 import { get, messages, post } from './endpoints';
-import { Route } from './definitions';
+import { Route, SubscribePayload } from './definitions';
+import { subscribe } from './handlers';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -22,16 +23,23 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http, { cors: '*' });
 
 io.on('connection', (socket: Socket) => {
-  console.log('User connected', socket.conn.id, socket.id);
+  // console.log('New connection, socketId:', socket.id);
+
+  const { participantId, sessionId }: SubscribePayload =
+    (socket?.handshake?.query as never) || {};
+
+  if (!participantId || !sessionId) {
+    socket.disconnect();
+    return;
+  }
+
+  const namespace = io.of('/');
+  subscribe({ participantId, sessionId }, socket, namespace);
 
   messages.forEach(({ handler, message }) => {
-    socket.on(message, (payload, cb) => {
-      handler(payload, socket, io.of('/'), cb);
+    socket.on(message, (payload) => {
+      handler(payload, socket, namespace);
     });
-  });
-
-  socket.on('reconnect', () => {
-    console.log('User reconnect');
   });
 });
 

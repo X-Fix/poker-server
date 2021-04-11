@@ -1,20 +1,19 @@
 import { Namespace, Socket } from 'socket.io';
 
-import { Session, SubscribePayload } from '../definitions';
+import { SubscribePayload } from '../definitions';
 import { getSessionById } from '../stores/sessionStore';
-import { parseSafeParticipantResponse } from '../utils';
+import { parseSafeSessionResponse } from '../utils';
 
 function subscribe(
   { participantId, sessionId }: SubscribePayload,
   socket: Socket,
-  namespace: Namespace,
-  callback: (session: Session) => void
+  namespace: Namespace
 ): void {
   const session = getSessionById(sessionId);
 
   // TODO: handle this better
   // Can happen if server restarts while client sessions still exist. Need to signal to client that
-  // a new session needs to be created
+  // a new session needs to be created. Maybe throw a connection error?
   if (!session) return;
 
   const { participants } = session;
@@ -27,28 +26,19 @@ function subscribe(
 
   // Attach socketId to participant
   participant.socketId = socket.id;
+  // Set connection status
   participant.isConnected = true;
 
   // TODO: unsubscribe any already existing socket connections
 
-  const safeParticipants = parseSafeParticipantResponse(participants);
-  if (typeof callback === 'function') {
-    // Broadcast update to already existing subscribers of the socket group (room)
-    namespace.to(sessionId).emit('syncParticipants', safeParticipants);
+  const safeSession = parseSafeSessionResponse(session);
 
-    // Subscribe participant's socket to socket group (room)
-    // Do this after emit cos we're gonna respond with the session object next
-    socket.join(sessionId);
-
-    // Send session object back to subscriber
-    callback(session);
-  } else {
-    // Subscribe participant's socket to socket group (room)
-    socket.join(sessionId);
-
-    // Broadcast update to ALL subscribers of the socket group (room)
-    namespace.to(sessionId).emit('syncParticipants', safeParticipants);
-  }
+  // Send session object back to new subscriber
+  socket.emit('syncSession', safeSession);
+  // Broadcast update to other subscribers of the socket group (room)
+  namespace.to(sessionId).emit('syncParticipants', safeSession.participants);
+  // Subscribe participant's socket to socket group for future updates
+  socket.join(sessionId);
 }
 
 export default subscribe;

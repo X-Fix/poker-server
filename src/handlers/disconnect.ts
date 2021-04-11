@@ -1,13 +1,7 @@
 import { Namespace, Socket } from 'socket.io';
 import { DisconnectPayload } from '../definitions';
-import { getSessionById, getSessionBySocketId } from '../stores/sessionStore';
-import { DISCONNECT_REASON, parseSafeParticipantResponse } from '../utils';
-
-const { IO_SERVER_DISCONNECT, IO_CLIENT_DISCONNECT } = DISCONNECT_REASON;
-
-function isIntentionalDisconnect(reason: DisconnectPayload): boolean {
-  return reason === IO_SERVER_DISCONNECT || reason === IO_CLIENT_DISCONNECT;
-}
+import { getSessionBySocketId } from '../stores/sessionStore';
+import { parseSafeParticipantResponse } from '../utils';
 
 const TEN_MINUTES: number = 10 * 60 * 1000;
 
@@ -16,10 +10,9 @@ function disconnect(
   socket: Socket,
   namespace: Namespace
 ): void {
-  console.log({ reason }, socket.id);
+  console.log('disconnect', reason);
   const session = getSessionBySocketId(socket.id);
 
-  console.log('session found', Boolean(session));
   // If no session found, assume this sessionId is actually the socketId, ignore and move on
   if (!session) return;
 
@@ -28,10 +21,6 @@ function disconnect(
     ({ socketId }) => socketId === socket.id
   );
 
-  console.log(
-    'disconnected participant found',
-    Boolean(disconnectedParticipant)
-  );
   if (!disconnectedParticipant) return;
 
   // Remove the participant's socketId and updated isConnected property
@@ -41,16 +30,15 @@ function disconnect(
   const connectedParticipants = participants.filter(({ socketId }) =>
     Boolean(socketId)
   );
+
   if (!connectedParticipants.length) {
     session.cleanUp = new Date(Date.now() + TEN_MINUTES);
+  } else {
+    // Broadcast update to all subscribers of the socket group (room)
+    namespace
+      .to(session.id)
+      .emit('syncParticipants', parseSafeParticipantResponse(participants));
   }
-  console.log('session scheduled for cleanup', session.cleanUp?.toTimeString());
-
-  // Broadcast update to all subscribers of the socket group (room)
-  namespace
-    .to(session.id)
-    .emit('syncParticipants', parseSafeParticipantResponse(participants));
-  console.log('disconnect update broadcast');
 }
 
 export default disconnect;
