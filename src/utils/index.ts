@@ -69,10 +69,14 @@ function getSafeParticipants(participants: Participant[]): Participant[] {
 }
 
 export function parseSafeSessionResponse(session: Session): Session {
-  // eslint-disable-next-line no-param-reassign
-  session.participants = getSafeParticipants(session.participants);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { cleanUp: _, ...strippedSession } = session;
+  const safeSession = {
+    ...strippedSession,
+    participants: getSafeParticipants(strippedSession.participants),
+  };
 
-  return session;
+  return safeSession;
 }
 
 export function parseSafeParticipantResponse(
