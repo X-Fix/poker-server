@@ -24,7 +24,18 @@ function removeParticipant(
     ({ id }) => id === participantId
   );
 
-  if (!removedParticipant) return;
+  const removedSocketId = removedParticipant?.socketId;
+
+  if (removedSocketId) {
+    const removedSocket = namespace.sockets.get(removedSocketId);
+
+    // Unsubscribe the removed participant from the socket group (room)
+    removedSocket?.leave(sessionId);
+
+    // Notify the socket client they have been removed and close connection
+    removedSocket?.emit('removed');
+    removedSocket?.disconnect(true);
+  }
 
   // Filter out the removed participant
   const filteredParticipants = participants.filter(
@@ -52,21 +63,6 @@ function removeParticipant(
       'syncParticipants',
       parseSafeParticipantResponse(filteredParticipants)
     );
-
-  const { socketId: removedSocketId } = removedParticipant;
-
-  if (!removedSocketId) return;
-
-  const removedSocket = namespace.sockets.get(removedSocketId);
-
-  if (!removedSocket) return;
-
-  // Unsubscribe the removed participant from the socket group (room)
-  removedSocket.leave(sessionId);
-
-  // Notify the socket client they have been removed and close connection
-  removedSocket.emit('removed');
-  removedSocket.disconnect(true);
 }
 
 export default removeParticipant;
