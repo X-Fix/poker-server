@@ -11,10 +11,15 @@ function subscribe(
 ): void {
   const session = getSessionById(sessionId);
 
-  // TODO: handle this better
-  // Can happen if server restarts while client sessions still exist. Need to signal to client that
-  // a new session needs to be created. Maybe throw a connection error?
-  if (!session) return;
+  /**
+   * Can happen if the server restarts while client sessions still exist. Signal error to client so
+   * user can start a new session
+   */
+  if (!session) {
+    socket.emit('sessionError');
+    socket.disconnect(true);
+    return;
+  }
 
   const { participants } = session;
 
