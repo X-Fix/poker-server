@@ -32,6 +32,19 @@ function removeParticipant(
   );
   session.participants = filteredParticipants;
 
+  /**
+   * Similar to when a participant leaves the session, re-assess if all remaining participants have
+   * finished voting
+   */
+  if (
+    session.phase === 'voting' &&
+    participants.every(
+      ({ isActive, vote: pVote }) => !isActive || Boolean(pVote)
+    )
+  ) {
+    session.phase = 'result';
+  }
+
   // Broadcast update to all subscribers of the socket group (room)
   namespace
     .to(sessionId)

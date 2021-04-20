@@ -76,6 +76,19 @@ function disconnect(
 
     if (!remainingParticipants.length) return;
 
+    /**
+     * Similar to when a participant is removed, re-assess if all remaining participants have
+     * finished voting
+     */
+    if (
+      session.phase === 'voting' &&
+      participants.every(
+        ({ isActive, vote: pVote }) => !isActive || Boolean(pVote)
+      )
+    ) {
+      session.phase = 'result';
+    }
+
     namespace
       .to(sessionId)
       .emit('syncSession', parseSafeSessionResponse(session));
