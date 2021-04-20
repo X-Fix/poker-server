@@ -1,7 +1,6 @@
 import {
   pong,
   disconnect,
-  leaveSession,
   newTopic,
   removeParticipant,
   setParticipantIsActive,
@@ -21,7 +20,6 @@ export const post = [createSession, joinSession, resetRoute];
 export const messages = [
   pong,
   disconnect,
-  leaveSession,
   newTopic,
   removeParticipant,
   setParticipantIsActive,

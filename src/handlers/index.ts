@@ -1,7 +1,6 @@
 export { default as createSession } from './createSession';
 export { default as joinSession } from './joinSession';
 export { default as disconnect } from './disconnect';
-export { default as leaveSession } from './leaveSession';
 export { default as newTopic } from './newTopic';
 export { default as removeParticipant } from './removeParticipant';
 export { default as subscribe } from './subscribe';

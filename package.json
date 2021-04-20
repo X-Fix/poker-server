@@ -101,7 +101,8 @@
           "peerDependencies": false
         }
       ],
-      "lines-between-class-members": "off"
+      "lines-between-class-members": "off",
+      "no-param-reassign": "off"
     },
     "settings": {
       "import/resolver": {

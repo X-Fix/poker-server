@@ -4,12 +4,10 @@ import {
   NewTopicPayload,
   SetVotePayload,
   RemoveParticipantPayload,
-  LeaveSessionPayload,
   DisconnectPayload,
 } from '../definitions';
 import {
   disconnect as disconnectHandler,
-  leaveSession as leaveSessionHandler,
   newTopic as newTopicHandler,
   removeParticipant as removeParticipantHandler,
   setParticipantIsActive as setParticipantIsActiveHandler,
@@ -26,11 +24,6 @@ export const pong: SocketMessage<unknown> = {
 export const disconnect: SocketMessage<DisconnectPayload> = {
   handler: disconnectHandler,
   message: 'disconnect',
-};
-
-export const leaveSession: SocketMessage<LeaveSessionPayload> = {
-  handler: leaveSessionHandler,
-  message: 'leaveSession',
 };
 
 export const removeParticipant: SocketMessage<RemoveParticipantPayload> = {
