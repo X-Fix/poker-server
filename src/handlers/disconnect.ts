@@ -23,11 +23,11 @@ function disconnect(
   if (!session) return;
 
   const { participants, id: sessionId, ownerId } = session;
-  const participant = participants.find(
+  const disconnectedParticipant = participants.find(
     ({ socketId }) => socketId === socket.id
   );
 
-  if (!participant) return;
+  if (!disconnectedParticipant) return;
 
   /**
    * Clean up all connections associated with this participant
@@ -36,12 +36,12 @@ function disconnect(
    * - Remove any reference to the dead socket's id
    */
   const disconnectedSocket = namespace.sockets.get(
-    participant.socketId as string
+    disconnectedParticipant.socketId as string
   );
   disconnectedSocket?.leave(sessionId);
 
-  participant.isConnected = false;
-  delete participant.socketId;
+  disconnectedParticipant.isConnected = false;
+  delete disconnectedParticipant.socketId;
 
   // Check the status of the remaining participants
   const connectedParticipants = participants.filter(({ socketId }) =>
@@ -63,11 +63,18 @@ function disconnect(
    * (if necessary), and broadcast the updates to the remaining participants
    */
   if (isIntentionalDisconnect(reason)) {
-    session.participants = connectedParticipants;
+    const remainingParticipants = participants.filter(
+      ({ id: participantId }) => participantId !== disconnectedParticipant.id
+    );
 
-    if (ownerId === participant.id) {
-      session.ownerId = connectedParticipants[0].id;
+    session.participants = remainingParticipants;
+
+    if (ownerId === disconnectedParticipant.id) {
+      // This will be set to `undefined` if there are no participants left
+      session.ownerId = remainingParticipants[0]?.id;
     }
+
+    if (!remainingParticipants.length) return;
 
     namespace
       .to(sessionId)
