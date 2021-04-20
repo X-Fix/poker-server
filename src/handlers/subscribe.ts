@@ -22,7 +22,15 @@ function subscribe(
     (currentParticipant) => currentParticipant.id === participantId
   );
 
-  if (!participant) return;
+  if (!participant) {
+    /**
+     * Assume this participant was kicked while temporarily disconnected. Notify them of their
+     * removal and abort subscribe attempt
+     */
+    socket.emit('removed');
+    socket.disconnect(true);
+    return;
+  }
 
   // Attach socketId to participant
   participant.socketId = socket.id;
