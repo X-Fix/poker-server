@@ -1,6 +1,5 @@
 import {
   SocketMessage,
-  SubscribePayload,
   SetParticipantIsActivePayload,
   NewTopicPayload,
   SetVotePayload,
@@ -13,14 +12,12 @@ import {
   leaveSession as leaveSessionHandler,
   newTopic as newTopicHandler,
   removeParticipant as removeParticipantHandler,
-  subscribe as subscribeHandler,
   setParticipantIsActive as setParticipantIsActiveHandler,
   setVote as setVoteHandler,
 } from '../handlers';
 
 export const pong: SocketMessage<unknown> = {
   handler: (empty, socket) => {
-    console.log('heard ping');
     socket.emit('pong');
   },
   message: 'ping',

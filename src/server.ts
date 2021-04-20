@@ -23,8 +23,6 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http, { cors: '*' });
 
 io.on('connection', (socket: Socket) => {
-  // console.log('New connection, socketId:', socket.id);
-
   const { participantId, sessionId }: SubscribePayload =
     (socket?.handshake?.query as never) || {};
 

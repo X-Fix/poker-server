@@ -29,8 +29,6 @@ function subscribe(
   // Set connection status
   participant.isConnected = true;
 
-  // TODO: unsubscribe any already existing socket connections
-
   const safeSession = parseSafeSessionResponse(session);
 
   // Send session object back to new subscriber
