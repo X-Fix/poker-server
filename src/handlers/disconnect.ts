@@ -82,8 +82,8 @@ function disconnect(
      */
     if (
       session.phase === 'voting' &&
-      participants.every(
-        ({ isActive, vote: pVote }) => !isActive || Boolean(pVote)
+      remainingParticipants.every(
+        ({ isActive, vote }) => !isActive || Boolean(vote)
       )
     ) {
       session.phase = 'result';

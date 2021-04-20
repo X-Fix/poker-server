@@ -1,7 +1,7 @@
 import { Namespace, Socket } from 'socket.io';
 import { RemoveParticipantPayload } from '../definitions';
 import { getSessionById } from '../stores/sessionStore';
-import { parseSafeParticipantResponse } from '../utils';
+import { parseSafeSessionResponse } from '../utils';
 
 function removeParticipant(
   { participantId, sessionId }: RemoveParticipantPayload,
@@ -47,22 +47,21 @@ function removeParticipant(
    * Similar to when a participant leaves the session, re-assess if all remaining participants have
    * finished voting
    */
+  console.log(session.phase);
   if (
     session.phase === 'voting' &&
-    participants.every(
-      ({ isActive, vote: pVote }) => !isActive || Boolean(pVote)
+    filteredParticipants.every(
+      ({ isActive, vote }) => !isActive || Boolean(vote)
     )
   ) {
     session.phase = 'result';
+    console.log('changed phase');
   }
 
   // Broadcast update to all subscribers of the socket group (room)
   namespace
     .to(sessionId)
-    .emit(
-      'syncParticipants',
-      parseSafeParticipantResponse(filteredParticipants)
-    );
+    .emit('syncSession', parseSafeSessionResponse(session));
 }
 
 export default removeParticipant;
