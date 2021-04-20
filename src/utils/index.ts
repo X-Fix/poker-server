@@ -5,10 +5,10 @@ import { Participant, Session } from '../definitions';
 /**
  * ID Generators
  */
-const nanoidSession = customAlphabet(dictionary, 6);
+const nanoidSession = customAlphabet(dictionary, 5);
 const nanoidParticipant = customAlphabet(dictionary, 10);
 
-export const generateSessionId = (): string => nanoidSession().toUpperCase();
+export const generateSessionId = (): string => nanoidSession().toLowerCase();
 export const generateParticipantId = (): string => nanoidParticipant();
 
 /**
