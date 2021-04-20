@@ -27,7 +27,7 @@ io.on('connection', (socket: Socket) => {
     (socket?.handshake?.query as never) || {};
 
   if (!participantId || !sessionId) {
-    socket.disconnect();
+    socket.disconnect(true);
     return;
   }
 
