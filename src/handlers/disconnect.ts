@@ -17,7 +17,6 @@ function disconnect(
   socket: Socket,
   namespace: Namespace
 ): void {
-  console.log('disconnect', reason);
   const session = getSessionBySocketId(socket.id);
 
   if (!session) return;

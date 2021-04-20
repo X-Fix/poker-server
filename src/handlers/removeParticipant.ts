@@ -47,7 +47,6 @@ function removeParticipant(
    * Similar to when a participant leaves the session, re-assess if all remaining participants have
    * finished voting
    */
-  console.log(session.phase);
   if (
     session.phase === 'voting' &&
     filteredParticipants.every(
@@ -55,7 +54,6 @@ function removeParticipant(
     )
   ) {
     session.phase = 'result';
-    console.log('changed phase');
   }
 
   // Broadcast update to all subscribers of the socket group (room)
