@@ -23,9 +23,15 @@ function disconnect(
 
   if (!disconnectedParticipant) return;
 
-  // Remove the participant's socketId and updated isConnected property
-  delete disconnectedParticipant.socketId;
+  // Unsubscribe socket from updates related to this session
+  const disconnectedSocket = namespace.sockets.get(
+    disconnectedParticipant.socketId as string
+  );
+  disconnectedSocket?.leave(session.id);
+
+  // Update isConnected status and remove socketId
   disconnectedParticipant.isConnected = false;
+  delete disconnectedParticipant.socketId;
 
   const connectedParticipants = participants.filter(({ socketId }) =>
     Boolean(socketId)
