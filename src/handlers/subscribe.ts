@@ -22,10 +22,7 @@ function subscribe(
   }
 
   const { participants } = session;
-
-  const participant = participants.find(
-    (currentParticipant) => currentParticipant.id === participantId
-  );
+  const participant = participants.find(({ id }) => id === participantId);
 
   if (!participant) {
     /**
