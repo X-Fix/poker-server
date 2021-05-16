@@ -4,13 +4,6 @@ import { Participant, Route, Session } from '../definitions';
 import { createSession, joinSession } from '../handlers';
 import { resetSessions, saveSession } from '../stores/sessionStore';
 
-export const home: Route = {
-  handler: (req: Request, response: Response) => {
-    response.send({ status: 'ok' });
-  },
-  url: '/',
-};
-
 export const ping: Route = {
   handler: (req: Request, response: Response) => {
     response.send('pong');

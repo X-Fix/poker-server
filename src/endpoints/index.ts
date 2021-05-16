@@ -7,7 +7,6 @@ import {
   setVote,
 } from './messages';
 import {
-  home,
   ping,
   createSessionRoute as createSession,
   joinSessionRoute as joinSession,
@@ -15,7 +14,7 @@ import {
   dummySessionRoute,
 } from './routes';
 
-export const get = [home, ping, dummySessionRoute];
+export const get = [ping, dummySessionRoute];
 export const post = [createSession, joinSession, resetRoute];
 export const messages = [
   pong,
