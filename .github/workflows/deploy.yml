@@ -40,6 +40,9 @@ jobs:
       - name: Build
         run: |
           yarn
+          ls -al
+          ls node_modules/@x-fix
+          ls node_modules/@x-fix/poker-planning-client/dist
           yarn build
       - name: Deploy
         run: |
