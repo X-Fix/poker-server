@@ -31,10 +31,11 @@ export const removeParticipant: SocketMessage<RemoveParticipantPayload> = {
   message: 'removeParticipant',
 };
 
-export const setParticipantIsActive: SocketMessage<SetParticipantIsActivePayload> = {
-  handler: setParticipantIsActiveHandler,
-  message: 'setActive',
-};
+export const setParticipantIsActive: SocketMessage<SetParticipantIsActivePayload> =
+  {
+    handler: setParticipantIsActiveHandler,
+    message: 'setActive',
+  };
 
 export const newTopic: SocketMessage<NewTopicPayload> = {
   handler: newTopicHandler,
