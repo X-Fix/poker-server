@@ -41,6 +41,8 @@ jobs:
         run: |
           yarn
           yarn build
+          echo 'web: node index.js' > build/Procfile
+          cp package.json build
       - name: Deploy
         run: |
           echo './node_modules' > .gitignore
