@@ -4,7 +4,7 @@ import app from '../server';
 const server = app.listen(3002);
 const request = supertest(server);
 
-describe('/joinSession', () => {
+describe('/api/join-session', () => {
   const defaultRequest = {
     participantName: 'Cameron',
     sessionId: '',
@@ -20,11 +20,9 @@ describe('/joinSession', () => {
       sessionName: 'ReadyPlayerOne',
     };
     const {
-      body: {
-        session: { id },
-      },
-    } = await request.post('/createSession').send(setupRequest);
-    defaultRequest.sessionId = id;
+      body: { sessionId },
+    } = await request.post('/api/create-session').send(setupRequest);
+    defaultRequest.sessionId = sessionId;
   });
 
   afterEach(async () => {
@@ -33,27 +31,19 @@ describe('/joinSession', () => {
 
   it('should return the expected objects', async () => {
     const { body, status } = await request
-      .post('/joinSession')
+      .post('/api/join-session')
       .send(defaultRequest);
 
-    const { participant, session } = body;
+    const { participantId, sessionId } = body;
 
     expect(status).toBe(200);
-    expect(participant.name).toEqual(defaultRequest.participantName);
-    expect(session.id).toEqual(defaultRequest.sessionId);
-  });
-
-  it("the participant should be in the session's participants list", async () => {
-    const { body } = await request.post('/joinSession').send(defaultRequest);
-
-    const { participant, session } = body;
-
-    expect(session.participants).toContainEqual(participant);
+    expect(participantId).toBeDefined();
+    expect(sessionId).toBeDefined();
   });
 
   it('should return an error if the session is not found', async () => {
     const { status } = await request
-      .post('/joinSession')
+      .post('/api/join-session')
       .send({ ...defaultRequest, sessionId: 'NeverGonnaFindThis' });
 
     expect(status).toBe(404);

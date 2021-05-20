@@ -8,19 +8,9 @@ afterAll(() => {
   app.close();
 });
 
-describe('/', () => {
-  it('should respond with JSON', async () => {
-    const { body, headers, status } = await request.get('/');
-
-    expect(status).toBe(200);
-    expect(headers['content-type']).toMatch(/json/);
-    expect(body.status).toEqual('ok');
-  });
-});
-
-describe('/ping', () => {
+describe('/api/ping', () => {
   it('should respond to a ping', async () => {
-    const { status, text } = await request.get('/ping');
+    const { status, text } = await request.get('/api/ping');
 
     expect(status).toBe(200);
     expect(text).toEqual('pong');
