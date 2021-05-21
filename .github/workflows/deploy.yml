@@ -43,7 +43,12 @@ jobs:
           yarn build
           echo 'web: node index.js' > build/Procfile
           cp package.json build
-          cp .npmrc build
+          cat > build/.npmrc <<EOF
+            //npm.pkg.github.com/:_authToken=$NODE_AUTH_TOKEN
+            @x-fix:registry=https://npm.pkg.github.com
+          EOF
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
       - name: Deploy
         run: |
           echo './node_modules' > .gitignore
