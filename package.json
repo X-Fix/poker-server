@@ -12,7 +12,7 @@
     "start": "nodemon",
     "test": "jest",
     "test:watch": "jest --watch",
-    "validate": "yarn lint && yarn format && yarn build && yarn test"
+    "validate": "yarn lint && yarn format && yarn build:ci && yarn test"
   },
   "repository": {
     "type": "git",

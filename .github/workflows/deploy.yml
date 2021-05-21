@@ -40,7 +40,7 @@ jobs:
       - name: Build
         run: |
           yarn
-          yarn build
+          yarn build:ci
           echo 'web: node index.js' > build/Procfile
           cp package.json build
           cat > build/.npmrc <<EOF
