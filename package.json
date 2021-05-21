@@ -4,7 +4,8 @@
   "description": "The back-end server which serves the poker-planning front-end web app",
   "main": "src/index.js",
   "scripts": {
-    "build": "rm -rf build && tsc && mkdir build/static && cp -a node_modules/@x-fix/poker-planning-client/dist/. build/static",
+    "build": "exit 0",
+    "build:ci": "rm -rf build && tsc && mkdir build/static && cp -a node_modules/@x-fix/poker-planning-client/dist/. build/static",
     "deploy": "git subtree push --prefix build heroku main",
     "format": "prettier --ignore-path .gitignore --write \"**/*.(js|ts)\"",
     "lint": "eslint --ignore-path .gitignore",
