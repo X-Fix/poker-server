@@ -9,7 +9,8 @@
     "deploy": "git subtree push --prefix build heroku main",
     "format": "prettier --ignore-path .gitignore --write \"**/*.(js|ts)\"",
     "lint": "eslint --ignore-path .gitignore",
-    "start": "nodemon",
+    "start:dev": "nodemon",
+    "start:prod": "yarn build && (cd build && heroku local web)",
     "test": "jest",
     "test:watch": "jest --watch",
     "validate": "yarn lint && yarn format && yarn build:ci && yarn test"
