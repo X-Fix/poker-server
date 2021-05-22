@@ -22,7 +22,7 @@ get.forEach(({ handler, url }: Route) => app.get(url, cors(), handler));
 post.forEach(({ handler, url }: Route) => app.post(url, cors(), handler));
 
 app.get(
-  /^\/$|(\/(create|join)-session)+/,
+  /^\/$|(\/(create-|join-)?session)+/,
   (req: Request, response: Response) => {
     response.sendFile(path.join(__dirname, 'static', 'index.html'));
   }
