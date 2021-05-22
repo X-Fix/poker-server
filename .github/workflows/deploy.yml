@@ -51,7 +51,7 @@ jobs:
           git config user.name $AUTHOR_NAME
           git add build
           git commit -m 'Commit build folder'
-          git subtree push --prefix build heroku main
+          git subtree push --prefix build heroku main --force
         env:
           AUTHOR_EMAIL: ${{ secrets.AUTHOR_EMAIL }}
           AUTHOR_NAME: ${{ secrets.AUTHOR_NAME }}
