@@ -987,10 +987,10 @@
     "@typescript-eslint/types" "4.24.0"
     eslint-visitor-keys "^2.0.0"
 
-"@x-fix/poker-planning-client@1.1.0":
-  version "1.1.0"
-  resolved "https://npm.pkg.github.com/download/@x-fix/poker-planning-client/1.1.0/08bb5ef41326521f12f764d553bc46230192a906e7b2d5243179ee8802a7eb7a#6978a1eef76e9a77a06f32ee9a79310fbf8eebf0"
-  integrity sha512-LN9XVbinUJqdJps5MIQOlhsDesfBFNo2VWsbuEJIlitLHskofA7zrtHJqCQF5oIDUQxvlp7vME1QzwBbajYv6A==
+"@x-fix/poker-planning-client@1.2.0":
+  version "1.2.0"
+  resolved "https://npm.pkg.github.com/download/@x-fix/poker-planning-client/1.2.0/596ae7ef67dcafb3d8b74e2001dee740d4317755868d427b05c59a216395b15c#47cc0ab3bb63012de8475a278a6fe72d81461dfa"
+  integrity sha512-pT9qXsb6jUTxlFFWTP3hcBubxdLrTD6KHbg8e9twSGWU5UnBqVHoVWVVisLStWY75hmsSRQ/8o5iKK4EnBjVWw==
   dependencies:
     "@emotion/core" "^11.0.0"
     "@emotion/react" "^11.1.5"
