@@ -43,7 +43,7 @@
     "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "@typescript-eslint/parser": "^4.14.2",
-    "@x-fix/poker-planning-client": "1.2.1",
+    "@x-fix/poker-planning-client": "1.3.0",
     "eslint": "^7.2.0",
     "eslint-config-airbnb-base": "14.2.1",
     "eslint-config-prettier": "^7.2.0",
