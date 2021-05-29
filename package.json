@@ -4,16 +4,17 @@
   "description": "The back-end server which serves the poker-planning front-end web app",
   "main": "src/index.js",
   "scripts": {
-    "build": "exit 0",
-    "build:ci": "rm -rf build && tsc && mkdir build/static && cp -a node_modules/@x-fix/poker-planning-client/dist/. build/static && echo 'web: node index.js' > build/Procfile",
-    "deploy": "git subtree push --prefix build heroku main",
+    "build": "rm -rf build && tsc && mkdir build/static && cp -a node_modules/@x-fix/poker-planning-client/dist/. build/static",
+    "deploy": "git push heroku main",
     "format": "prettier --ignore-path .gitignore --write \"**/*.(js|ts)\"",
     "lint": "eslint --ignore-path .gitignore",
-    "start:dev": "nodemon",
-    "start:prod": "yarn build:ci && (cd build && heroku local web)",
+    "start": "nodemon",
+    "start:heroku": "heroku local web",
     "test": "jest",
     "test:watch": "jest --watch",
-    "validate": "yarn lint && yarn format && yarn build:ci && yarn test"
+    "validate": "yarn lint && yarn format && yarn build && yarn test",
+    "heroku-prebuild": "npm config set @x-fix:registry https://npm.pkg.github.com && npm config set '//registry.npmjs.org/:_authToken' ${NPM_TOKEN}",
+    "heroku-postbuild": "yarn add @x-fix/poker-planning-client@latest --exact"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
     "url": "https://github.com/X-Fix/poker-server/issues"
   },
   "dependencies": {
+    "@x-fix/poker-planning-client": "1.3.2",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "express": "^4.17.1",
@@ -43,7 +45,6 @@
     "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "@typescript-eslint/parser": "^4.14.2",
-    "@x-fix/poker-planning-client": "1.3.2",
     "eslint": "^7.2.0",
     "eslint-config-airbnb-base": "14.2.1",
     "eslint-config-prettier": "^7.2.0",
@@ -61,7 +62,7 @@
     "typescript": "^4.1.3"
   },
   "engines": {
-    "node": "14.x || 15.x"
+    "node": "15.x"
   },
   "prettier": {
     "singleQuote": true
