@@ -70,7 +70,7 @@ function getSafeParticipants(participants: Participant[]): Participant[] {
 
 export function parseSafeSessionResponse(session: Session): Session {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { cleanUp: _, ...strippedSession } = session;
+  const { cleanUp: _1, chatMessages: _2, ...strippedSession } = session;
   const safeSession = {
     ...strippedSession,
     participants: getSafeParticipants(strippedSession.participants),

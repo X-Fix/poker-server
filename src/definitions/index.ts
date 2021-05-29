@@ -1,6 +1,7 @@
 export { default as Participant } from './Participant';
 export { default as Session } from './Session';
 export { default as Route } from './Route';
+export { default as SendChatMessagePayload } from './SendChatMessagePayload';
 export { default as SocketMessage } from './SocketMessage';
 export { default as DisconnectPayload } from './DisconnectPayload';
 export { default as NewTopicPayload } from './NewTopicPayload';

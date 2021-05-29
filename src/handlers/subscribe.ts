@@ -43,6 +43,8 @@ function subscribe(
 
   // Send session object back to new subscriber
   socket.emit('syncSession', safeSession);
+  // Send current chat history back to new subscriber
+  socket.emit('syncChat', session.chatMessages);
   // Broadcast update to other subscribers of the socket group (room)
   namespace.to(sessionId).emit('syncParticipants', safeSession.participants);
   // Subscribe participant's socket to socket group for future updates
