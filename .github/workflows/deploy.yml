@@ -26,6 +26,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Node Setup
         uses: actions/setup-node@v2
         with:
@@ -47,6 +49,4 @@ jobs:
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
       - name: Deploy
         run: |
-          # https://stackoverflow.com/questions/29748197/how-to-clone-seed-kick-start-project-without-the-whole-history
-          git filter-branch -- --all
           yarn deploy --no-verify
