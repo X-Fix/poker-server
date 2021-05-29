@@ -3,14 +3,7 @@ name: Deploy
 on: workflow_dispatch
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: TODO
-        run: exit 0
-
-  publish:
-    needs: test
+  validate:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -18,10 +11,21 @@ jobs:
       - name: Node Setup
         uses: actions/setup-node@v2
         with:
-          node-version: 14
+          node-version: 15
           registry-url: https://npm.pkg.github.com/
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+      - name: Validate
+        run: |
+          yarn
+          yarn validate
+
+  publish:
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Heroku Setup
         run: |
           cat > ~/.netrc <<EOF
@@ -37,25 +41,6 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
-      - name: Build
-        run: |
-          yarn
-          yarn build:ci
-          cp package.json build
-          cat > build/.npmrc <<EOF
-            //npm.pkg.github.com/:_authToken=$NODE_AUTH_TOKEN
-            @x-fix:registry=https://npm.pkg.github.com
-          EOF
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
       - name: Deploy
         run: |
-          echo './node_modules' > .gitignore
-          git config user.email $AUTHOR_EMAIL
-          git config user.name $AUTHOR_NAME
-          git add build
-          git commit -m 'Commit build folder'
-          git push heroku `git subtree split --prefix build main`:main --force
-        env:
-          AUTHOR_EMAIL: ${{ secrets.AUTHOR_EMAIL }}
-          AUTHOR_NAME: ${{ secrets.AUTHOR_NAME }}
+          yarn deploy --no-verify
