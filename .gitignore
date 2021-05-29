@@ -1,6 +1,12 @@
-/.vscode
+# Generated folders
 /node_modules
 /build
 
-yarn-error.log
-.npmrc
+# Generated files
+*.log
+
+# Editor-specific
+/.vscode
+
+# OS-specific
+.DS_Store
