@@ -13,7 +13,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "validate": "yarn lint && yarn format && yarn build && yarn test",
-    "heroku-prebuild": "npm config set '@x-fix:registry' 'https://npm.pkg.github.com' && npm config set '//npm.pkg.github.com/:_authToken' \"${NPM_TOKEN}\" && cat .npmrc",
+    "heroku-prebuild": "npm config set '@x-fix:registry' 'https://npm.pkg.github.com' && npm config set '//npm.pkg.github.com/:_authToken' \"${NPM_TOKEN}\"",
     "heroku-postbuild": "yarn add @x-fix/poker-planning-client@latest --exact"
   },
   "repository": {
