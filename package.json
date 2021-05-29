@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "build": "rm -rf build && ./node_modules/.bin/tsc && mkdir build/static && cp -a node_modules/@x-fix/poker-planning-client/dist/. build/static",
-    "deploy": "git push heroku main",
+    "deploy": "git push heroku main --force",
     "format": "prettier --ignore-path .gitignore --write \"**/*.(js|ts)\"",
     "lint": "eslint --ignore-path .gitignore",
     "start": "nodemon",
