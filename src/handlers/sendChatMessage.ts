@@ -31,6 +31,8 @@ function sendChatMessage(
     session.chatMessages = [newChatMessage];
   }
 
+  console.log('syncChat');
+
   namespace.to(sessionId).emit('syncChat', session.chatMessages);
 }
 
