@@ -1,9 +1,13 @@
 name: Deploy
 
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+  push:
+    paths-ignore:
+      - '*.md'
 
 jobs:
-  validate:
+  static_code_analysis:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -20,18 +24,35 @@ jobs:
           yarn
           yarn validate
 
-  publish:
-    needs: validate
+  deploy_to_staging_environment:
+    needs: static_code_analysis
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Node Setup
-        uses: actions/setup-node@v2
+      - name: Heroku Deploy
+        uses: akhileshns/heroku-deploy@v3.12.12
         with:
-          node-version: 15
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_STAGING_APP_NAME }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+          healthcheck: 'https://exfix-server-staging.herokuapp.com/api/ping'
+          checkstring: 'pong'
+        env:
+          HD_HUSKY: 0 # Skip husky pre-push
+
+  end_to_end_tests:
+    needs: deploy_to_staging_environment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Placeholder (TODO)
+        run: exit 0
+
+  promote_to_production:
+    needs: end_to_end_tests
+    runs-on: ubuntu-latest
       - name: Heroku Setup
         run: |
           cat > ~/.netrc <<EOF
@@ -42,11 +63,8 @@ jobs:
               login $HEROKU_EMAIL
               password $HEROKU_API_KEY
           EOF
-          heroku git:remote --app $HEROKU_APP_NAME
+          heroku pipelines:promote -a $HEROKU_APP_NAME
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           HEROKU_EMAIL: ${{ secrets.HEROKU_EMAIL }}
-          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
-      - name: Deploy
-        run: |
-          yarn deploy --no-verify
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_STAGING_APP_NAME }}
